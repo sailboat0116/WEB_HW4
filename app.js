@@ -34,7 +34,7 @@ app.get('/api/sumit', function(req, res, next) {
     var month = req.query.month;
 
     if (!year || !month) {
-        return res.status(400).send('請提供 year 和 month 參數');
+        return res.status(400).send('請提供 年分 和 月份 參數');
     }
 
     // 構建查詢語句
