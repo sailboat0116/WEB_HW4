@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>簡易查詢</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    h2 {
+      color: #666;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      width: 300px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    select, button {
+      padding: 8px;
+      margin-bottom: 20px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #result {
+      width: 300px;
+      margin: 20px auto;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+<h1>查詢價格</h1>
+<h2>日期區間為2021年至2024年</h2>
+<form id="queryForm">
+  <label for="year">年份:</label>
+  <select id="year" name="year" required>
+    <option value="">請選擇年份</option>
+    <option value="2021">2021</option>
+    <option value="2022">2022</option>
+    <option value="2023">2023</option>
+    <option value="2024">2024</option>
+  </select>
+  <label for="month">月份:</label>
+  <select id="month" name="month" required>
+    <option value="">請選擇月份</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+  </select>
+  <button type="submit">查詢</button>
+</form>
+<div id="result"></div>
+
+<script>
+  document.getElementById('queryForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var year = document.getElementById('year').value;
+    var month = document.getElementById('month').value;
+
+    fetch(`/api/sumit?year=${year}&month=${month}`)
+            .then(response => response.json())
+            .then(data => {
+              var resultDiv = document.getElementById('result');
+              if (data.error) {
+                resultDiv.innerHTML = `<p style="color: red;">${data.error}</p>`;
+              } else {
+                resultDiv.innerHTML = `<p>價格: ${data.money}</p>`;
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+  });
+</script>
+</body>
+</html>
